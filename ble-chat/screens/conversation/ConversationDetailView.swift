@@ -5,7 +5,6 @@
 //  Created by Jacob Senecal on 7/11/25.
 //
 
-import Combine
 import SwiftUI
 
 struct ConversationDetailView: View {
@@ -51,7 +50,7 @@ struct ConversationDetailView: View {
         BleMessage(
           id: "7", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
         BleMessage(
-          id: "8", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
+          id: "8", content: "message 4", createdAt: Date.now, sender: "pid3", receiver: "pid1"),
         BleMessage(
           id: "9", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
         BleMessage(
