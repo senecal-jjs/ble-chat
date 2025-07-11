@@ -12,6 +12,8 @@ import SwiftUI
 struct ContentView: View {
   @Environment(\.managedObjectContext) private var viewContext
 
+  @State var loggedInUser: String? = "pid1"
+
   let conversations = [
     Conversation(
       id: "1",
@@ -25,7 +27,18 @@ struct ContentView: View {
           id: "3", content: "message 3", createdAt: Date.now, sender: "pid2", receiver: "pid1"),
         BleMessage(
           id: "4", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
+        BleMessage(
+          id: "5", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
+        BleMessage(
+          id: "6", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
+        BleMessage(
+          id: "7", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
+        BleMessage(
+          id: "8", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
+        BleMessage(
+          id: "9", content: "message 4", createdAt: Date.now, sender: "pid1", receiver: "pid2"),
       ],
+      participants: ["pid1", "pid2"],
       lastUpdatedAt: Date.now
     )
   ]
@@ -40,7 +53,7 @@ struct ContentView: View {
             }
           }
           .navigationDestination(for: Conversation.self) { conversation in
-            ConversationDetailView(conversation: conversation, viewerId: "pid2")
+            ConversationDetailView(conversation: conversation, loggedInUser: "pid2")
           }
         }
       }
