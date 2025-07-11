@@ -38,17 +38,11 @@ Temporary Items
 *.xcscmblueprint
 *.xccheckout
  
-### Xcode Patch ###
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace
-!*.xcworkspace/contents.xcworkspacedata
+### Xcode ###
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-### Xcode ###
 ## User settings
-*xcworkspace/xcuserdata/*
+ble-chat.xcodeproj/project.xcworkspace/xcuserdata/*
  
 # End of https://www.toptal.com/developers/gitignore/api/macos,xcode
