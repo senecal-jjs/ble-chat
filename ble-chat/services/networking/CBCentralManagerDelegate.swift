@@ -14,7 +14,7 @@ extension NetworkService: CBCentralManagerDelegate {
       print("BLE powered on")
       central.scanForPeripherals(
         withServices: [NetworkService.serviceId],
-        options: nil
+        options: [CBCentralManagerScanOptionAllowDuplicatesKey: true]
       )
 
     } else {

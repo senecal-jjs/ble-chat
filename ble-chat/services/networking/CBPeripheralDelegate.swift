@@ -8,42 +8,120 @@
 import CoreBluetooth
 
 extension NetworkService: CBPeripheralDelegate {
-  func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-    if peripheral.state == .poweredOn {
-      print("Peripheral Manager is powered on")
 
-      let peripheralService = setupServicesAndCharacteristics(
-        peripheral,
-        peerId: self.userId,
-      )
-
-      peripheral.add(peripheralService)
-
-      peripheral.startAdvertising([
-        CBAdvertisementDataServiceUUIDsKey: [peripheralService.uuid],
-        CBAdvertisementDataLocalNameKey: self.userId,
-      ])
-    } else {
-      print("Peripheral Manager is not powered on")
+  // The peripheral letting us know when services have been invalidated
+  func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+    for service in invalidatedServices where service.uuid == NetworkService.serviceId {
+      print("Transfer service is invalidated, re-discover services")
+      peripheral.discoverServices([NetworkService.serviceId])
     }
   }
 
-  func setupServicesAndCharacteristics(
-    _ peripheral: CBPeripheralManager,
-    peerId: String,
-  ) -> CBMutableService {
-    // Create a characteristic
-    let myCharacteristic = CBMutableCharacteristic(
-      type: NetworkService.characteristicId,
-      properties: [.read, .write, .notify, .writeWithoutResponse],  // Example properties: read, write, notify
-      value: nil,
-      permissions: [.readable, .writeable]  // Example permissions
-    )
+  // The network service was discovered
+  func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: (any Error)?) {
+    if let error = error {
+      print("Error discovering services: \(error.localizedDescription)")
+      cleanup(peripheral)
+      return
+    }
 
-    // Create a service and add the characteristic
-    let myService = CBMutableService(type: NetworkService.serviceId, primary: true)
-    myService.characteristics = [myCharacteristic]
+    // Find the characteristic we want
+    // Loop over the newly filled peripheral.services, in case there's more than one
+    guard let peripheralServices = peripheral.services else { return }
 
-    return myService
+    for service in peripheralServices {
+      peripheral.discoverCharacteristics([NetworkService.characteristicId], for: service)
+    }
+  }
+
+  // Found the transfer characteristic
+  // Subscribe, which lets the peripheral know we want the data contained in the characteristic
+  func peripheral(
+    _ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService,
+    error: (any Error)?
+  ) {
+    if let error = error {
+      print("Error discovering characteristics: \(error.localizedDescription)")
+      cleanup(peripheral)
+      return
+    }
+
+    guard let characteristics = service.characteristics else { return }
+
+    for characteristic in characteristics
+    where characteristic.uuid == NetworkService.characteristicId {
+      peripheralCharacteristics[peripheral] = characteristic
+
+      peripheral.setNotifyValue(true, for: characteristic)
+
+      // Request maximum MTU for faster data transfer
+      // iOS supports up to 512 bytes with BLE 5.0
+      peripheral.maximumWriteValueLength(for: .withoutResponse)
+    }
+
+    // now wait for data to arrive
+  }
+
+  // Data has arrived on the characteristic
+  func peripheral(
+    _ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic,
+    error: (any Error)?
+  ) {
+
+    guard let data = characteristic.value else {
+      return
+    }
+
+    guard let packet = Packet.from(data) else {
+      // Failed to parse packet
+      return
+    }
+
+    // TODO(handle packet)
+
+    print("Received data: \(String(data: characteristic.value!, encoding: .utf8) ?? "No data")")
+
+  }
+
+  func peripheral(
+    _ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?
+  ) {
+    if let error = error {
+      // Log error but don't spam for common errors
+      let errorCode = (error as NSError).code
+      if errorCode != 242 {  // Don't log the common "Unknown ATT error"
+        // print("[ERROR] Write failed: \(error)")
+      }
+    } else {
+    }
+  }
+
+  // The peripheral letting us know if our subscribe/unsubcribe happened
+  func peripheral(
+    _ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic,
+    error: (any Error)?
+  ) {
+    if let error = error {
+      print("Error changing notification state: \(error.localizedDescription)")
+      return
+    }
+
+    // exit if it's not the transfer characteristic
+    guard characteristic.uuid == NetworkService.characteristicId else { return }
+
+    if characteristic.isNotifying {
+      // Notification has started
+      print("Notification began on \(characteristic)")
+    } else {
+      // Notification has stopped, so disconnect from the peripheral
+      print("Notification stopped on \(characteristic). Disconnecting.")
+      cleanup(peripheral)
+    }
+  }
+
+  func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: (any Error)?) {
+    guard error == nil else { return }
+
+    // find the peer id for this peripheral
   }
 }
