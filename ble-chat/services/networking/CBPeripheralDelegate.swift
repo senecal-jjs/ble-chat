@@ -72,7 +72,7 @@ extension NetworkService: CBPeripheralDelegate {
       return
     }
 
-    guard let packet = Packet.from(data) else {
+    guard let packet = BlePacket.from(data) else {
       // Failed to parse packet
       return
     }

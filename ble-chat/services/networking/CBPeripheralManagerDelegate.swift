@@ -29,7 +29,7 @@ extension NetworkService: CBPeripheralManagerDelegate {
     _ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]
   ) {
     for request in requests {
-      if let data = request.value, let packet = Packet.from(data) {
+      if let data = request.value, let packet = BlePacket.from(data) {
         // try to identify peer from packet
 
         // store the central for updates

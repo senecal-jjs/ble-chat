@@ -17,9 +17,9 @@ struct MessageListView: View {
       LazyVStack {
         ForEach(messages) { message in
           VStack {
-            formattedDate(message.createdAt)
-              .font(.caption)
-              .foregroundStyle(.secondary)
+//            formattedDate(message.createdAt)
+//              .font(.caption)
+//              .foregroundStyle(.secondary)
 
             MessageBubbleView(
               message,
@@ -54,22 +54,22 @@ struct MessageListView: View {
   }
 }
 
-#Preview {
-  MessageListView(
-    messages: [
-      BleMessage(
-        id: "1", content: "message 1", createdAt: .now.addingTimeInterval(-86400 * 10),
-        sender: "pid1", receiver: "pid2"),
-      BleMessage(
-        id: "2", content: "message 2", createdAt: .now.addingTimeInterval(-86400 * 3),
-        sender: "pid2", receiver: "pid3"),
-      BleMessage(
-        id: "3", content: "message 3", createdAt: .now.addingTimeInterval(-86400 * 1),
-        sender: "pid1", receiver: "pid2"),
-      BleMessage(id: "4", content: "message 4", createdAt: .now, sender: "pid1", receiver: "pid2"),
-      BleMessage(id: "5", content: "message 5", createdAt: .now, sender: "pid2", receiver: "pid1"),
-    ],
-    loggedInUser: "pid1",
-    shouldShowParticipantInfo: true
-  )
-}
+//#Preview {
+//  MessageListView(
+//    messages: [
+//      BleMessage(
+//        id: "1", content: "message 1", createdAt: .now.addingTimeInterval(-86400 * 10),
+//        sender: "pid1", receiver: "pid2"),
+//      BleMessage(
+//        id: "2", content: "message 2", createdAt: .now.addingTimeInterval(-86400 * 3),
+//        sender: "pid2", receiver: "pid3"),
+//      BleMessage(
+//        id: "3", content: "message 3", createdAt: .now.addingTimeInterval(-86400 * 1),
+//        sender: "pid1", receiver: "pid2"),
+//      BleMessage(id: "4", content: "message 4", createdAt: .now, sender: "pid1", receiver: "pid2"),
+//      BleMessage(id: "5", content: "message 5", createdAt: .now, sender: "pid2", receiver: "pid1"),
+//    ],
+//    loggedInUser: "pid1",
+//    shouldShowParticipantInfo: true
+//  )
+//}

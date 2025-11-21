@@ -48,7 +48,7 @@ class NetworkService: NSObject {
   //
   // BleMessage -> BinaryData -> inserted as payload in packet -> packet passed to fragmenter which split single packet into multiple
 
-  private func broadcastPacket(_ packet: Packet) {
+  private func broadcastPacket(_ packet: BlePacket) {
     // send to connected peripherals (as central)
     // write to the peripherals characteristic
 

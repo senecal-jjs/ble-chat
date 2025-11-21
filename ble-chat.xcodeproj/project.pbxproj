@@ -29,9 +29,22 @@
 		9A66974D2E2078D4005B3867 /* ble-chatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ble-chatUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DD29D8CB2ED10F3600D74B76 /* Exceptions for "ble-chat" folder in "ble-chat" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9A6697302E2078D1005B3867 /* ble-chat */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9A6697332E2078D1005B3867 /* ble-chat */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD29D8CB2ED10F3600D74B76 /* Exceptions for "ble-chat" folder in "ble-chat" target */,
+			);
 			path = "ble-chat";
 			sourceTree = "<group>";
 		};
@@ -195,6 +208,9 @@
 			);
 			mainGroup = 9A6697282E2078D1005B3867;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DD29D8C32ED0E77100D74B76 /* XCRemoteSwiftPackageReference "swift-log" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9A6697322E2078D1005B3867 /* Products */;
 			projectDirPath = "";
@@ -395,6 +411,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L95NKYKBG7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -422,6 +439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L95NKYKBG7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -550,6 +568,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD29D8C32ED0E77100D74B76 /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 9A6697292E2078D1005B3867 /* Project object */;
 }
